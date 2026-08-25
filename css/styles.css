@@ -341,7 +341,8 @@ main:focus {
 .vt-hero-title {
     font-size: 1.05rem;
     color: var(--text-muted);
-    margin-top: 0.25rem;
+    margin-top: 0.5rem;
+    margin-bottom: 20px;
 }
 
 .vt-hero-tagline {
@@ -356,7 +357,7 @@ main:focus {
     color: var(--text-muted);
     max-width: 52ch;
     line-height: 1.6;
-    margin-bottom: 0.9rem;
+    margin-bottom: 1.5rem;
 }
 
 .vt-hero-actions {
@@ -364,6 +365,41 @@ main:focus {
     gap: 0.75rem;
 }
 .vt-hero-actions .vt-cta { flex: 1 1 0; }
+
+.vt-hero-socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 1.5rem;
+}
+.vt-social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    height: 2.5rem;
+    padding: 0 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text-muted) !important;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    text-decoration: none !important;
+    transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease, transform 0.15s ease, padding 0.2s ease;
+}
+.vt-social-link svg {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+}
+.vt-social-link:hover {
+    border-color: var(--accent);
+    color: var(--accent) !important;
+    background: var(--accent-soft);
+    padding: 0 1.05rem;
+    transform: translateY(-2px);
+    text-decoration: none !important;
+}
 
 /* Generative node-graph beside the hero text. No border/background of its
    own — it floats directly on the page, not inside a card. Purely
@@ -379,40 +415,11 @@ main:focus {
     display: block;
 }
 
-/* Small labels around the graph that tie it to the portfolio's identity
-   instead of letting it read as a generic background decoration. All
-   pointer-events:none so they never intercept the canvas's own cursor
-   tracking underneath them. */
-.vt-graph-tag {
-    position: absolute;
-    font-family: var(--font-mono);
-    font-size: 0.64rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--text-faint);
-    pointer-events: none;
-}
-.vt-graph-tag--tl { top: 0; left: 0; }
-.vt-graph-tag--tr { top: 0; right: 0; color: var(--green); }
-.vt-graph-tag--bl { bottom: 0; left: 0; opacity: 0.75; }
-.vt-graph-coord {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    font-family: var(--font-mono);
-    font-size: 0.66rem;
-    color: var(--cyan);
-    pointer-events: none;
-    opacity: 0.9;
-}
-
 @media (max-width: 900px) {
     .vt-hero-visual { height: 380px; min-height: 380px; }
 }
 @media (max-width: 640px) {
     .vt-hero-visual { height: 260px; min-height: 260px; margin-top: 0.5rem; }
-    .vt-graph-tag--bl, .vt-graph-coord { display: none; }
 }
 
 /* ---------------------------------------------------------------------- */

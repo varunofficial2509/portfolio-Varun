@@ -22,7 +22,6 @@ document.body.classList.add("vt-js-ready");
 
     const ctx = canvas.getContext("2d");
     const container = canvas.closest(".vt-hero-visual") || canvas.parentElement;
-    const coordEl = document.getElementById("vtCoord");
     const ACCENT = "58, 255, 158";
     const BASE = "244, 244, 239";
 
@@ -314,13 +313,11 @@ document.body.classList.add("vt-js-ready");
         const rect = canvas.getBoundingClientRect();
         mouse.x = e.clientX - rect.left;
         mouse.y = e.clientY - rect.top;
-        if (coordEl) coordEl.textContent = "x:" + Math.round(mouse.x) + " y:" + Math.round(mouse.y);
         if (prefersReducedMotion) requestStaticFrame();
     });
     canvas.addEventListener("mouseleave", function () {
         mouse.x = -9999;
         mouse.y = -9999;
-        if (coordEl) coordEl.textContent = "x:— y:—";
         if (prefersReducedMotion) requestStaticFrame();
     });
 
@@ -358,6 +355,21 @@ document.body.classList.add("vt-js-ready");
 
     if (typeof CHATBOT_URL !== "undefined" && CHATBOT_URL) {
         link.href = CHATBOT_URL;
+    } else {
+        link.addEventListener("click", function (e) {
+            e.preventDefault();
+        });
+    }
+})();
+
+/* Hero "Resume" button: same inert-until-configured pattern as the
+   "Ask My AI" link above, driven by RESUME_URL in js/config.js. */
+(function () {
+    const link = document.getElementById("resume-link");
+    if (!link) return;
+
+    if (typeof RESUME_URL !== "undefined" && RESUME_URL) {
+        link.href = RESUME_URL;
     } else {
         link.addEventListener("click", function (e) {
             e.preventDefault();
