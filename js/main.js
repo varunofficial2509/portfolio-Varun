@@ -13,6 +13,8 @@
    rather than cluttered. Under prefers-reduced-motion, the autonomous
    loop is replaced with a single still frame that still redraws on
    cursor movement and resize (input-driven, not autoplaying). */
+document.body.classList.add("vt-js-ready");
+
 (function () {
     const canvas = document.getElementById("vtGrid");
     if (!canvas || canvas.dataset.vtInit) return;
@@ -20,8 +22,9 @@
 
     const ctx = canvas.getContext("2d");
     const container = canvas.closest(".vt-hero-visual") || canvas.parentElement;
-    const ACCENT = "183, 123, 232";
-    const BASE = "242, 242, 242";
+    const coordEl = document.getElementById("vtCoord");
+    const ACCENT = "58, 255, 158";
+    const BASE = "244, 244, 239";
 
     let width = 0, height = 0;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -311,11 +314,13 @@
         const rect = canvas.getBoundingClientRect();
         mouse.x = e.clientX - rect.left;
         mouse.y = e.clientY - rect.top;
+        if (coordEl) coordEl.textContent = "x:" + Math.round(mouse.x) + " y:" + Math.round(mouse.y);
         if (prefersReducedMotion) requestStaticFrame();
     });
     canvas.addEventListener("mouseleave", function () {
         mouse.x = -9999;
         mouse.y = -9999;
+        if (coordEl) coordEl.textContent = "x:— y:—";
         if (prefersReducedMotion) requestStaticFrame();
     });
 
@@ -358,4 +363,61 @@
             e.preventDefault();
         });
     }
+})();
+
+/* Nav active-section indicator: highlights /skills, /experience, /projects
+   as their section anchor crosses the vertical center of the viewport,
+   falling back to /home near the top of the page. */
+(function () {
+    const navLinks = Array.prototype.slice.call(document.querySelectorAll(".vt-nav-links a"));
+    const sections = ["skills", "experience", "projects"]
+        .map(function (id) { return document.getElementById(id); })
+        .filter(Boolean);
+    if (!navLinks.length || !sections.length) return;
+
+    let current = "top";
+
+    function setActive(id) {
+        navLinks.forEach(function (a) {
+            a.classList.toggle("is-active", a.getAttribute("href") === "#" + id);
+        });
+    }
+
+    const sectionObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (entry.isIntersecting) current = entry.target.id;
+        });
+        setActive(current);
+    }, { rootMargin: "-40% 0px -55% 0px", threshold: 0 });
+    sections.forEach(function (s) { sectionObserver.observe(s); });
+
+    window.addEventListener("scroll", function () {
+        if (window.scrollY < 80) { current = "top"; setActive("top"); }
+    }, { passive: true });
+
+    setActive("top");
+})();
+
+/* Subtle scroll-reveal for elements below the fold (skill cards, timeline
+   items, project blocks) — opt-in via body.vt-js-ready in CSS so content
+   stays fully visible if this script never runs. */
+(function () {
+    const items = document.querySelectorAll(".vt-reveal");
+    if (!items.length) return;
+
+    if (!("IntersectionObserver" in window)) {
+        items.forEach(function (el) { el.classList.add("is-visible"); });
+        return;
+    }
+
+    const observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+
+    items.forEach(function (el) { observer.observe(el); });
 })();
