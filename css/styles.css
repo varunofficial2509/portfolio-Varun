@@ -1,0 +1,546 @@
+/* Varun Teja Jaladhula — portfolio theme.
+   Exactly three colors: background, text, accent. Never introduce a new
+   hue here — only these three and opacity-based surfaces derived from them. */
+
+:root {
+    --bg: #0D0F14;
+    --text: #F2F2F2;
+    --accent: #B77BE8;
+    --text-muted: rgba(242, 242, 242, 0.58);
+    --text-faint: rgba(242, 242, 242, 0.50);
+    --surface: rgba(242, 242, 242, 0.04);
+    --surface-strong: rgba(242, 242, 242, 0.08);
+    --border: rgba(242, 242, 242, 0.12);
+    --accent-soft: rgba(183, 123, 232, 0.12);
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-sans);
+    color: var(--text);
+    margin: 0;
+}
+
+p {
+    margin: 0;
+}
+
+a, a:visited, a:link {
+    color: var(--accent);
+    text-decoration: none;
+    transition: opacity 0.15s ease;
+}
+a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* Keyboard focus: a themed ring instead of the browser default (which
+   otherwise renders as a blue outline that clashes with the palette).
+   :focus-visible only fires for keyboard/programmatic focus, not mouse
+   clicks, so pointer users see no change. */
+a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+}
+
+.mono { font-family: var(--font-mono); }
+.text-muted { color: var(--text-muted) !important; }
+.text-faint { color: var(--text-faint) !important; }
+.accent { color: var(--accent) !important; }
+
+/* Visually hidden until keyboard-focused, so a keyboard user can jump
+   straight past the nav to the main content. */
+.vt-skip-link {
+    position: absolute;
+    top: -3rem;
+    left: 1rem;
+    z-index: 100;
+    background: var(--accent);
+    color: var(--bg) !important;
+    padding: 0.55rem 1rem;
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    font-weight: 500;
+    text-decoration: none !important;
+    transition: top 0.15s ease;
+}
+.vt-skip-link:focus {
+    top: 1rem;
+}
+
+/* The skip link's target: focusable (tabindex="-1" in HTML) so activating
+   the link actually moves keyboard focus past the nav, not just the
+   scroll position -- but a full-width outline around all main content
+   would be more clutter than signal, so it's suppressed here specifically. */
+main:focus {
+    outline: none;
+}
+
+.container {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 1.25rem 1.5rem 3rem;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Nav                                                                    */
+/* ---------------------------------------------------------------------- */
+
+.vt-nav {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    row-gap: 0.5rem;
+    padding: 0.5rem 0 0.9rem;
+    margin-bottom: 1.1rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.vt-nav-brand {
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text) !important;
+    white-space: nowrap;
+}
+
+.vt-nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.1rem;
+}
+
+.vt-nav-links a {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--text-muted) !important;
+    text-decoration: none !important;
+    transition: color 0.15s ease;
+}
+
+.vt-nav-links a:hover { color: var(--text) !important; }
+
+@media (max-width: 560px) {
+    .vt-nav { flex-direction: column; align-items: flex-start; }
+    .vt-nav-links { gap: 0.85rem 1rem; }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Hero                                                                   */
+/* ---------------------------------------------------------------------- */
+
+.vt-hero-row {
+    display: flex;
+    align-items: center;
+    gap: 1.1rem 2.5rem;
+    flex-wrap: wrap;
+}
+
+.vt-hero-col {
+    flex: 1 1 420px;
+    min-width: 0;
+}
+
+.vt-hero-visual-col {
+    flex: 1 1 380px;
+    min-width: 0;
+}
+
+.vt-hero {
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+    margin: 0 0 0.9rem;
+}
+
+.vt-avatar-img {
+    width: 64px;
+    height: 64px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+.vt-avatar-fallback {
+    width: 64px;
+    height: 64px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    color: var(--accent);
+    flex-shrink: 0;
+}
+
+.vt-hero-name {
+    font-size: 2.15rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+
+.vt-hero-title {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    margin-top: 0.2rem;
+}
+
+.vt-hero-tagline {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--accent);
+    margin: 0.65rem 0;
+}
+
+.vt-hero-summary {
+    font-size: 1rem;
+    color: var(--text-muted);
+    max-width: 52ch;
+    line-height: 1.6;
+    margin-bottom: 0.9rem;
+}
+
+.vt-hero-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+.vt-hero-actions .vt-cta { flex: 1 1 0; }
+
+/* Generative node-graph beside the hero text. No border/background of its
+   own — it floats directly on the page, not inside a card. Purely
+   decorative, so it's dropped on narrow viewports rather than squeezed. */
+.vt-hero-visual {
+    position: relative;
+    height: 460px;
+    min-height: 460px;
+}
+.vt-hero-visual canvas {
+    position: absolute;
+    inset: 0;
+    display: block;
+}
+@media (max-width: 900px) {
+    .vt-hero-visual { height: 380px; min-height: 380px; }
+}
+@media (max-width: 640px) {
+    .vt-hero-visual { height: 260px; min-height: 260px; margin-top: 0.5rem; }
+    /* Steps down from 2.15rem so the name wraps at a calmer, more
+       intentional point instead of crowding the narrow column at full
+       desktop size. */
+    .vt-hero-name { font-size: 1.85rem; }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Section titles ("$ about", "$ skills", ...)                            */
+/* ---------------------------------------------------------------------- */
+
+.vt-section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    margin: 1.6rem 0 1rem;
+    padding-top: 0.25rem;
+}
+.vt-section-title::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+}
+.vt-section-title .accent { margin-right: -0.15rem; }
+.vt-section-anchor { position: relative; top: -4.5rem; }
+
+/* ---------------------------------------------------------------------- */
+/* Skills                                                                 */
+/* ---------------------------------------------------------------------- */
+
+.vt-skills {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.9rem;
+}
+
+@media (max-width: 860px) {
+    .vt-skills { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+    .vt-skills { grid-template-columns: 1fr; }
+}
+
+.vt-skill-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    padding: 0.9rem 1.1rem;
+    transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+}
+.vt-skill-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px -14px var(--accent-soft), 0 0 0 1px var(--accent-soft);
+}
+
+.vt-skill-cat-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 0.7rem;
+}
+
+.vt-skill-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.vt-skill-chip {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.82rem;
+    line-height: 1;
+    color: var(--text-muted);
+    background: var(--surface-strong);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.4rem 0.75rem;
+    transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
+}
+
+.vt-skill-chip:hover {
+    border-color: var(--accent);
+    color: var(--text);
+    background: var(--accent-soft);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Experience                                                             */
+/* ---------------------------------------------------------------------- */
+
+.vt-exp {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+    padding: 1.3rem 1.4rem 1.4rem;
+}
+.vt-exp-period {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--accent);
+    margin-bottom: 0.35rem;
+}
+.vt-exp-role { font-size: 1.15rem; font-weight: 600; margin-bottom: 0.4rem; }
+.vt-exp-company { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.7rem; }
+.vt-exp-overview {
+    font-size: 0.94rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    max-width: 72ch;
+    margin-bottom: 1.3rem;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.vt-exp-highlights {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.9rem;
+    align-items: start;
+}
+@media (max-width: 720px) {
+    .vt-exp-highlights { grid-template-columns: 1fr; }
+}
+
+.vt-exp-hl {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface-strong);
+    padding: 0.95rem 1.05rem;
+    transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+}
+.vt-exp-hl:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px -14px var(--accent-soft), 0 0 0 1px var(--accent-soft);
+}
+.vt-exp-hl-title { font-size: 0.96rem; font-weight: 600; margin-bottom: 0.5rem; }
+.vt-exp-hl-problem {
+    font-size: 0.84rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+    margin-bottom: 0.6rem;
+}
+.vt-exp-hl-label {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-right: 0.35rem;
+}
+.vt-exp-hl-stack {
+    font-size: 0.76rem;
+    color: var(--accent);
+    margin-bottom: 0.65rem;
+}
+.vt-exp-hl-list {
+    margin: 0 0 0.7rem;
+    padding-left: 1.05rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+.vt-exp-hl-list li {
+    font-size: 0.83rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+.vt-exp-hl-list li::marker { color: var(--text-faint); }
+.vt-exp-hl-impact {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    padding-top: 0.6rem;
+    border-top: 1px solid var(--border);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Projects                                                               */
+/* ---------------------------------------------------------------------- */
+
+.vt-projects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.9rem;
+}
+@media (max-width: 720px) {
+    .vt-projects-grid { grid-template-columns: 1fr; }
+}
+
+.vt-project {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    padding: 1.15rem 1.3rem;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+}
+.vt-project:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px -14px var(--accent-soft), 0 0 0 1px var(--accent-soft);
+}
+.vt-project-head {
+    display: flex;
+    gap: 0.7rem;
+    align-items: baseline;
+    margin-bottom: 0.3rem;
+}
+.vt-project-num { font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-faint); }
+.vt-project-title { font-size: 1.1rem; font-weight: 600; }
+.vt-project-category { font-size: 0.8rem; color: var(--text-faint); margin: 0.1rem 0 0.75rem; }
+.vt-project-desc { font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; margin: 0 0 0.9rem; flex: 1; }
+.vt-project-result { font-size: 0.85rem; color: var(--text-muted); margin: -0.4rem 0 0.9rem; }
+.vt-project-tech { font-family: var(--font-mono); font-size: 0.78rem; color: var(--accent); margin: 0 0 0.6rem; }
+.vt-project-link { font-family: var(--font-mono); font-size: 0.82rem; }
+
+/* ---------------------------------------------------------------------- */
+/* Buttons (plain anchors styled as buttons — no framework widgets)       */
+/* ---------------------------------------------------------------------- */
+
+.vt-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    min-height: 2.5rem;
+    box-sizing: border-box;
+    background: transparent;
+    color: var(--text) !important;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 1rem;
+    text-decoration: none !important;
+    transition: border-color 0.15s ease, color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+.vt-cta:hover {
+    border-color: var(--accent);
+    color: var(--accent) !important;
+    transform: translateY(-1px);
+    text-decoration: none !important;
+}
+
+.vt-cta.primary {
+    background: var(--accent);
+    color: var(--bg) !important;
+    border: 1px solid var(--accent);
+}
+.vt-cta.primary:hover {
+    opacity: 0.9;
+    color: var(--bg) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px -10px var(--accent);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Footer                                                                 */
+/* ---------------------------------------------------------------------- */
+
+.vt-footer {
+    margin-top: 2.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.vt-footer-credit { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-faint); }
+
+/* ---------------------------------------------------------------------- */
+/* Reduced motion                                                         */
+/* ---------------------------------------------------------------------- */
+
+/* Smooth anchor-scrolling and every hover/transition on this page are
+   short, input-triggered micro-interactions rather than autoplay, but
+   under prefers-reduced-motion they're still made instant rather than
+   animated -- the hero graph handles its own reduced-motion behavior
+   separately, in js/main.js. */
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
